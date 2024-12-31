@@ -1,0 +1,39 @@
+
+eureka:
+    instance:
+        hostname: localhost
+    client:
+        register-with-eureka: false
+        fetch-registry: false
+        serviceUrl:
+            defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+server:
+    port: 8222
+
+spring:
+    application:
+        name: gateway-service
+    cloud:
+        gateway:
+            discovery:
+                locator:
+                 enabled: true
+            mvc: 
+             routes:
+                - id: user-service
+                  uri: http://localhost:8090
+                  predicates:
+                    - Path=/api/v1/users/**
+                - id: product-service
+                  uri: http://localhost:8083
+                  predicates:
+                    - Path=/api/v1/products/**
+                - id: order-service
+                  uri: http://localhost:8084
+                  predicates:
+                    - Path=/api/v1/orders/**
+    config:
+     import: optional:configserver:http://localhost:8888
+
+                
