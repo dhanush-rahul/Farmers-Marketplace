@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserSerive userService;
+    private final UserService userService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -42,7 +42,7 @@ public class UserController {
         return userService.listAllUsers();
     }
 
-    @GetMapping("/id/{user-id}")
+    @GetMapping("/id/{userId}")
     public ResponseEntity<Users> getUserById(@PathVariable Integer userId){
         return userService.getUserById(userId).map(user -> ResponseEntity.ok(user))
                .orElse(ResponseEntity.notFound().build());
